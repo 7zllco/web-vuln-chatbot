@@ -2,9 +2,18 @@ from __future__ import annotations
 
 import os
 import sys
-from pathlib import Path
+import sys
+
+try:
+    __import__("pysqlite3")
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    pass
 
 import streamlit as st
+
+from src.retrieval import load_collection, load_embedding_model, rag_retrieve_with_fallback
+from pathlib import Path
 from openai import OpenAI
 
 ROOT_DIR = Path(__file__).resolve().parent
